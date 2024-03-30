@@ -13,10 +13,21 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/api/user', userRouter);
-app.use('/api/auth', authRouter)
-
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+app.use('/api/user', userRouter);
+app.use('/api/auth', authRouter)
+
+app.use((err, req, res, next) => {
+    const stautsCode = err.stautsCode || 500;
+    const message = err.message || "Internal Server Error"
+    return res.status(stautsCode).json({
+        success: false,
+        stautsCode: stautsCode,
+        message
+    })
+})
