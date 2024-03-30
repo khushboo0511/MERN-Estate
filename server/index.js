@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { userRouter } = require('./routes/user.route.js');
+const { authRouter } = require('./routes/auth.route.js')
 
 mongoose.connect('mongodb://0.0.0.0:27017/mernestate').then(() => {
     console.log('Connected to MongoDB!');
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/user', userRouter);
+app.use('/api/auth', authRouter)
 
 const PORT = 3000;
 app.listen(PORT, () => {
