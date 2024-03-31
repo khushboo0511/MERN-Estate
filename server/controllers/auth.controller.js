@@ -30,7 +30,7 @@ exports.signin = async (req, res, next) => {
             return res.status(401).json({ error: 'Wrong credentials' });
         }
 
-        const token = jwt.sign({ id: validUser._id }, 'ascnnvbivbiwegb5654946gerge44', { expiresIn: '1h' });
+        const token = jwt.sign({ id: validUser._id }, 'ascnnvbivbiwegb5654946gerge44', { expiresIn: '15h' });
         const {password: pass, ...rest} = validUser._doc
         res.cookie('access-token', token, { httpOnly: true, secure: true, sameSite: 'strict' }).status(200).json(rest);
     } catch (error) {
