@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { userRouter } = require('./routes/user.route.js');
 const { authRouter } = require('./routes/auth.route.js')
+var cors = require('cors')
 
 mongoose.connect('mongodb://0.0.0.0:27017/mernestate').then(() => {
     console.log('Connected to MongoDB!');
@@ -12,6 +13,13 @@ mongoose.connect('mongodb://0.0.0.0:27017/mernestate').then(() => {
 const app = express();
 
 app.use(express.json());
+
+app.use(cors())
+
+app.use((req, res, next) => {
+    res.set('Cross-Origin-Opener-Policy', 'allow-popups');
+    next();
+  });
 
 const PORT = 3000;
 app.listen(PORT, () => {
