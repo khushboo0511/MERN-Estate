@@ -5,7 +5,7 @@ import {useSelector } from 'react-redux'
 
 const Header = () => {
 
-  const {currentUser} = useSelector((state) => state.user)
+  const currentUser = useSelector((state) => state.user)
   
   console.log(currentUser)
 
@@ -33,12 +33,8 @@ const Header = () => {
 
         
           <Link to='/profile'>
-            {currentUser ? (
-              <img
-                className='rounded-full h-7 w-7 object-cover'
-                src={currentUser.avatar}
-                alt='profile'
-              />
+            {currentUser && currentUser.avatar ? (
+             <h1>Hello world</h1>
             ) : (
               <li className=' text-slate-700 hover:underline'> Sign in</li>
             )}
@@ -52,3 +48,4 @@ const Header = () => {
 }
 
 export default Header
+

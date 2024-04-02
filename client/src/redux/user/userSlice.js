@@ -25,6 +25,6 @@ const initialState = {
     }
 })
 
-export const {signInStart, signInSuccess, signInfailure} = userSlice.actions
+export const {signInStart, signInSuccess, signInFailure} = userSlice.actions
 
 export default userSlice.reducer
