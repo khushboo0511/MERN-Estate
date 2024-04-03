@@ -3,4 +3,4 @@ exports.errorHandler = (statusCode, message) => {
     error.statusCode = statusCode;
     error.message = message;
     return error;
-  };
+};
