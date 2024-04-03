@@ -1,5 +1,5 @@
 const express = require('express');
-const {test, updateUser} = require('../controllers/user.controller.js');
+const {test, updateUser, deleteUser} = require('../controllers/user.controller.js');
 const { verifyToken } = require('../utils/verifyUser.js');
 
 const router = express.Router();
@@ -9,5 +9,7 @@ router.use(express.json());
 router.get('/test', test)
 
 router.post('/update/:id', verifyToken, updateUser)
+
+router.delete('/delete/:id', verifyToken, deleteUser)
 
 module.exports = {userRouter: router}
