@@ -3,15 +3,19 @@ import { useSelector } from 'react-redux'; // Assuming you're using Redux for st
 import { useRef } from 'react';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
 import { app } from '../firebase';
+import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
 
 const Profile = () => {
   const fileRef = useRef(null)
-  const { currentUser } = useSelector((state) => state.user); // Assuming currentUser is stored in Redux state
+  const { currentUser, loading, error } = useSelector((state) => state.user); // Assuming currentUser is stored in Redux state
   const [file, setFile] = useState(undefined)
   const [filePerc, setFilePerc] = useState(0)
   const [fileUploadError, setFileUploadError] = useState(false)
   const [formData, setFormData] = useState({})
-  
+  const [updateSuccess, setUpdateSuccess] = useState(false)
+  const dispatch =  useDispatch();
+
   console.log(filePerc)
   console.log(fileUploadError)
   console.log(formData)
@@ -47,7 +51,38 @@ const Profile = () => {
         });
       }
     );
-    }    
+    }   
+    
+    const handleChange = (e) => {
+      setFormData({...formData, [e.target.id]: e.target.value})
+    }
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        dispatch(updateUserStart())
+        const res = await fetch(`/api/user/update/${currentUser._id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await res.json();
+        if (data.success === false) {
+          dispatch(updateUserFailure(data.message));
+          return;
+        }
+
+        dispatch(updateUserSuccess(data))
+        setUpdateSuccess(true)
+
+      } catch (error) {
+        dispatch(updateUserFailure(error.message))
+      }
+    }
 
   return (
     <div className='p-5 max-w-lg mx-auto'>
@@ -75,7 +110,7 @@ const Profile = () => {
 
         </div>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='mb-5'>
           <input
             id='username'
@@ -83,6 +118,7 @@ const Profile = () => {
             placeholder='Enter your username'
             defaultValue={currentUser.username}
             className='border p-3 rounded-lg w-full focus:outline-none focus:ring focus:border-blue-300'
+            onChange={handleChange}
           />
         </div>
         <div className='mb-5'>
@@ -92,21 +128,23 @@ const Profile = () => {
             placeholder='Enter your email'
             defaultValue={currentUser.email}
             className='border p-3 rounded-lg w-full focus:outline-none focus:ring focus:border-blue-300'
+            onChange={handleChange}
             readOnly // email is non editable
           />
         </div>
         <div className='mb-5'>
           <input
-            id='username'
-            type='text'
+            id='password'
+            type='password'
             placeholder='Enter new password'
             defaultValue={currentUser.password}
             className='border p-3 rounded-lg w-full focus:outline-none focus:ring focus:border-blue-300'
+            onChange={handleChange}
           />
         </div>
         <div className='text-center'>
-          <button type='submit' className='bg-slate-700 text-white p-3 rounded-lg shadow w-full uppercase hover:opacity-85 disabled:opacity-60'>
-            Update
+          <button disabled={loading} type='submit' className='bg-slate-700 text-white p-3 rounded-lg shadow w-full uppercase hover:opacity-85 disabled:opacity-60'>
+             {loading? 'Loading...' : 'Update'}
           </button>
         </div>
       </form>
@@ -115,6 +153,12 @@ const Profile = () => {
         <span className='text-red-700 cursor-pointer'>Delete Account</span>
         <span className='text-red-700 cursor-pointer'>Sign Out</span>
       </div>
+      <p className='text-red-700 mt-5'>
+        {error? error : ''}
+      </p>
+      <p className='text-green-700 mt-5'>
+            {updateSuccess ? 'User is updated successfully' : ''}
+      </p>
     </div>
   );
 };
