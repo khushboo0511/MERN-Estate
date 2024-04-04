@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const { userRouter } = require('./routes/user.route.js');
 const { authRouter } = require('./routes/auth.route.js')
 var cors = require('cors')
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const { listingRouter } = require('./routes/listing.route.js');
 
 mongoose.connect('mongodb://0.0.0.0:27017/mernestate').then(() => {
     console.log('Connected to MongoDB!');
@@ -31,8 +32,8 @@ app.listen(PORT, () => {
 
 
 app.use('/api/user', userRouter);
-app.use('/api/auth', authRouter)
-
+app.use('/api/auth', authRouter);
+app.use('/api/listing', listingRouter);
 app.use((err, req, res, next) => {
     const stautsCode = err.stautsCode || 500;
     const message = err.message || "Internal Server Error"
