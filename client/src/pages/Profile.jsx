@@ -5,6 +5,7 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/st
 import { app } from '../firebase';
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const fileRef = useRef(null)
@@ -141,11 +142,10 @@ const Profile = () => {
             ''
           )}
         </p>
-
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className='mb-5'>
+        <div className='mb-2'>
           <input
             id='username'
             type='text'
@@ -155,7 +155,7 @@ const Profile = () => {
             onChange={handleChange}
           />
         </div>
-        <div className='mb-5'>
+        <div className='mb-2'>
           <input
             id='email'
             type='email'
@@ -166,7 +166,7 @@ const Profile = () => {
             readOnly // email is non editable
           />
         </div>
-        <div className='mb-5'>
+        <div className='mb-2'>
           <input
             id='password'
             type='password'
@@ -180,7 +180,14 @@ const Profile = () => {
           <button disabled={loading} type='submit' className='bg-slate-700 text-white p-3 rounded-lg shadow w-full uppercase hover:opacity-85 disabled:opacity-60'>
              {loading? 'Loading...' : 'Update'}
           </button>
+          
         </div>
+      <Link
+        className='bg-green-700 text-white p-3 mt-2 rounded-lg uppercase hover:opacity-85 inline-block w-full text-center'
+        to={"/createlisting"}>
+        Create Listing
+      </Link>
+
       </form>
       
       <div className='flex justify-between mt-5 font-semibold'>
