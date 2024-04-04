@@ -1,6 +1,7 @@
 const { errorHandler } = require("../utils/error.js")
 const bcrypt = require('bcrypt')
 const User = require('../models/user.model.js')
+const Listing = require("../models/listing.model.js")
 
 exports.test = (req, res)  => {
     res.json({
@@ -37,7 +38,6 @@ exports.updateUser = async (req, res, next) => {
     }
 }
 
-
 exports.deleteUser = async (req, res, next) => {
     if(req.user.id !== req.params.id) return next(errorHandler(401, 'You can only delete your own account!'))
     try {
@@ -46,5 +46,18 @@ exports.deleteUser = async (req, res, next) => {
         res.status(200).json('User has been deleted!')
     } catch (error) {
         next(error)
+    }
+}
+
+exports.getUserListings = async (req, res, next) => {
+    if(req.user.id === req.params.id) {
+        try {
+            const listings = await Listing.find({ useRef: req.params. id });
+            res.status(200).json(listings);
+        } catch (error) {
+            next(error)
+        }
+    } else {
+        return next(errorHandler(401, 'You can only view your own listings!'))
     }
 }
