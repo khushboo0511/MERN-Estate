@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ListingItem from '../components/ListingItem';
 
 
 export default function Search() {
@@ -229,7 +230,7 @@ export default function Search() {
           </button>
         </form>
       </div>
-      {/* <div className='flex-1'>
+      <div className='flex-1'>
         <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>
           Listing results:
         </h1>
@@ -257,8 +258,8 @@ export default function Search() {
               Show more
             </button>
           )}
-        </div> */}
+        </div>
       </div>
-   // </div>
+    </div>
   );
 }
