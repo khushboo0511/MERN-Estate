@@ -17,7 +17,6 @@ export default function Contact({ listing }) {
         setLandlord(data);
       } catch (error) {
         console.error('Error fetching landlord:', error);
-        // You might want to set an error state here and handle it in the UI
       }
     };
     fetchLandlord();
