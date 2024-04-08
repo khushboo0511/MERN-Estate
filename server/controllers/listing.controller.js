@@ -31,7 +31,7 @@ exports.deleteListing = async (req, res, next) => {
 exports.updateListing = async (req, res, next) => {
     const listing = await Listing.findById(req.params.id);
     if (!listing) {
-        return next(errorHandler(401, 'Listibg not found'))
+        return next(errorHandler(401, 'Listing not found'))
     }
     if (req.user.id !== listing.useRef) {
         return next(errorHandler(401, 'You can only update your own listings!'))
