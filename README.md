@@ -1,6 +1,8 @@
 ﻿# MERN-Estate
 
 
+![mern-estate](https://github.com/khushboo0511/MERN-Estate/assets/69863418/cd42bab8-bcea-46b4-a412-dd9ce580f159)
+
 
 ![Screenshot 2024-04-24 104940](https://github.com/khushboo0511/MERN-Estate/assets/69863418/c105d809-5c85-4230-8f76-6f246983c3a3)
 
