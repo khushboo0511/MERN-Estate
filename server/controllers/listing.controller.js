@@ -46,7 +46,6 @@ exports.updateListing = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-    
 }
 
 exports.getListing = async (req, res, next) => {
@@ -111,4 +110,4 @@ exports.getListings = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-} 
+}
